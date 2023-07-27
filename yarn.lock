@@ -330,7 +330,7 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@types/node@^20.4.5":
+"@types/node@20.4.5":
   version "20.4.5"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-20.4.5.tgz#9dc0a5cb1ccce4f7a731660935ab70b9c00a5d69"
   integrity sha512-rt40Nk13II9JwQBdeYqmbn2Q6IVTA5uPhvSO+JVqdXw/6/4glI6oR9ezty/A9Hg5u7JH4OmYmuQ+XvjKm0Datg==
@@ -645,7 +645,7 @@ fast-uri@^2.0.0, fast-uri@^2.1.0:
   resolved "https://registry.yarnpkg.com/fast-uri/-/fast-uri-2.2.0.tgz#519a0f849bef714aad10e9753d69d8f758f7445a"
   integrity sha512-cIusKBIt/R/oI6z/1nyfe2FvGKVTohVRfvkOhvx0nCEW+xf5NoCXjAHcWp93uOUBchzYcsvPlrapAdX1uW+YGg==
 
-fastify@^4.21.0:
+fastify@4.21.0:
   version "4.21.0"
   resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.21.0.tgz#82f4272310c0fb7733a1a70605c57bdd1de938f2"
   integrity sha512-tsu4bcwE4HetxqW8prA5fbC9bKHMYDp7jGEDWyzK1l90a3uOaLoIcQbdGcWeODNLVJviQnzh1wvIjTZE3MJFEg==
@@ -1267,7 +1267,7 @@ ts-interface-checker@^0.1.9:
   resolved "https://registry.yarnpkg.com/ts-interface-checker/-/ts-interface-checker-0.1.13.tgz#784fd3d679722bc103b1b4b8030bcddb5db2a699"
   integrity sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==
 
-tsup@^7.1.0:
+tsup@7.1.0:
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/tsup/-/tsup-7.1.0.tgz#11369762b68032da118a714a38d5a1d26ac45293"
   integrity sha512-mazl/GRAk70j8S43/AbSYXGgvRP54oQeX8Un4iZxzATHt0roW0t6HYDVZIXMw0ZQIpvr1nFMniIVnN5186lW7w==
@@ -1287,7 +1287,7 @@ tsup@^7.1.0:
     sucrase "^3.20.3"
     tree-kill "^1.2.2"
 
-tsx@^3.12.7:
+tsx@3.12.7:
   version "3.12.7"
   resolved "https://registry.yarnpkg.com/tsx/-/tsx-3.12.7.tgz#b3b8b0fc79afc8260d1e14f9e995616c859a91e9"
   integrity sha512-C2Ip+jPmqKd1GWVQDvz/Eyc6QJbGfE7NrR3fx5BpEHMZsEHoIxHL1j+lKdGobr8ovEyqeNkPLSKp6SCSOt7gmw==
@@ -1298,7 +1298,7 @@ tsx@^3.12.7:
   optionalDependencies:
     fsevents "~2.3.2"
 
-typescript@^5.1.6:
+typescript@5.1.6:
   version "5.1.6"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.1.6.tgz#02f8ac202b6dad2c0dd5e0913745b47a37998274"
   integrity sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==

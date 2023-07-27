@@ -3,18 +3,18 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "scripts" : {
-    "dev" : "tsx watch src/server.ts",
-    "release" : "node build/server.js",
-    "build" : "tsup src --out-dir build"
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "release": "node build/server.js",
+    "build": "tsup src --out-dir build"
   },
   "devDependencies": {
-    "@types/node": "^20.4.5",
-    "tsup": "^7.1.0",
-    "tsx": "^3.12.7",
-    "typescript": "^5.1.6"
+    "@types/node": "20.4.5",
+    "tsup": "7.1.0",
+    "tsx": "3.12.7",
+    "typescript": "5.1.6"
   },
   "dependencies": {
-    "fastify": "^4.21.0"
+    "fastify": "4.21.0"
   }
 }
