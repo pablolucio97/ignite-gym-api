@@ -1,2 +1,8 @@
+#DEPENDENCIES
 node_modules
+
+#BUILD
 build
+
+#ENV
+.env
