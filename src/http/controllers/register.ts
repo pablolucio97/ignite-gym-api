@@ -1,3 +1,4 @@
+import { AppError } from '@/errors/AppError'
 import { PrismaUsersRepository } from '@/repositories/prisma-users-repository'
 import { RegisterUseCase } from '@/useCases/register'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -23,8 +24,12 @@ export async function registerUserController(req: FastifyRequest, rep: FastifyRe
         })
 
     } catch (error) {
-        console.log(error)
-        return rep.status(409).send()
+        if(error instanceof AppError) {
+            return rep.status(409).send({
+                message: error.message
+            })
+        }
+        return rep.status(500).send()
     }
     return rep.status(201).send()
 }
