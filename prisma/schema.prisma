@@ -18,7 +18,7 @@ model User {
   created_at    DateTime @default(now())
 
   checkins Checkin[]
-  checkin_id String
+  checkin_id String?
 
   @@map("users")
 }

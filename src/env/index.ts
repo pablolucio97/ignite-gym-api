@@ -3,7 +3,7 @@ import {z as zod} from 'zod'
 
 const envSchema = zod.object({
     NODE_ENV: zod.enum(['dev', 'test', 'production']).default('dev'),
-    PORT: zod.coerce.number()
+    PORT: zod.coerce.number().default(3335)
 })
 
 //VALIDATES IF THE ENV VAR MATCHES THE OBJECT VALIDATION
