@@ -26,11 +26,15 @@ export class RegisterUseCase {
             throw new AppError('E-mail already exists')
         }
 
-        await this.usersRepository.create({
+        const newUser = await this.usersRepository.create({
             name,
             email,
             password_hash: hashedPassword
         })
+
+        return {
+            newUser
+        }
 
     }
 }
