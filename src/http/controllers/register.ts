@@ -29,7 +29,7 @@ export async function registerUserController(req: FastifyRequest, rep: FastifyRe
                 message: error.message
             })
         }
-        return rep.status(500).send()
+        throw error
     }
     return rep.status(201).send()
 }
