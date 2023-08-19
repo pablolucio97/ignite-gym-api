@@ -1,7 +1,7 @@
 import { AppError } from '@/errors/AppError';
-import { PrismaUsersRepository } from '@/repositories/prisma-users-repository'
+import { UsersRepository } from '@/repositories/interfaces/prisma-users-repository';
 import { User } from '@prisma/client';
-import { compare } from 'bcryptjs';
+import { compare, hash } from 'bcryptjs';
 
 interface IAuthenticateUserRequest {
     email: string;
@@ -11,17 +11,17 @@ interface IAuthenticateUserRequest {
 
 export class AuthenticateUserUseCase {
     constructor(
-        private usersRepository: PrismaUsersRepository
+        private usersRepository: UsersRepository
     ) { }
 
     async execute({ email, password }: IAuthenticateUserRequest): Promise<User> {
         const user = await this.usersRepository.findByEmail(email)
 
+        
         if (!user) {
             throw new AppError('Invalid credentials.')
         }
-
-        const doesPasswordMatches = await compare(user.password_hash, password)
+        const doesPasswordMatches = await compare(password, user.password_hash)
 
         if (!doesPasswordMatches) {
             throw new AppError("Invalid Credentials.")
