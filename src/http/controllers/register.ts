@@ -1,6 +1,6 @@
 import { AppError } from '@/errors/AppError'
 import { PrismaUsersRepository } from '@/repositories/prisma-users-repository'
-import { RegisterUseCase } from '@/useCases/registerUser'
+import { RegisterUseCase } from '@/useCases/registerUser/registerUser'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z as zod } from 'zod'
 
