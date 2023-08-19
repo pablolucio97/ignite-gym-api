@@ -1,7 +1,7 @@
 import { AppError } from '@/errors/AppError';
 import { UsersRepository } from '@/repositories/interfaces/prisma-users-repository';
 import { User } from '@prisma/client';
-import { compare, hash } from 'bcryptjs';
+import { compare } from 'bcryptjs';
 
 interface IAuthenticateUserRequest {
     email: string;

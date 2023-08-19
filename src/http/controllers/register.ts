@@ -1,4 +1,5 @@
 import { AppError } from '@/errors/AppError'
+import { makeRegisterUserUseCase } from '@/factories/makeRegisterUserUseCase'
 import { PrismaUsersRepository } from '@/repositories/prisma-users-repository'
 import { RegisterUseCase } from '@/useCases/registerUser/registerUser'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -14,9 +15,8 @@ export async function registerUserController(req: FastifyRequest, rep: FastifyRe
     const { name, email, password } = userRegistrationSchema.parse(req.body)
     try {
 
-        const prismaUsersRepository = new PrismaUsersRepository()
-        const registerUserUseCase = new RegisterUseCase(prismaUsersRepository)
-
+        const registerUserUseCase = makeRegisterUserUseCase()
+        
         await registerUserUseCase.execute({
             name,
             email,

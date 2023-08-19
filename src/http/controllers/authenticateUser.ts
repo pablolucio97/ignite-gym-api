@@ -1,4 +1,5 @@
 import { AppError } from '@/errors/AppError'
+import { makeAuthenticateUserUseCase } from '@/factories/makeAuthenticateUserUseCase'
 import { PrismaUsersRepository } from '@/repositories/prisma-users-repository'
 import { AuthenticateUserUseCase } from '@/useCases/authenticateUser/authenticateUser'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -13,8 +14,7 @@ export async function authenticateUserController(req: FastifyRequest, rep: Fasti
     const { email, password } = userRegistrationSchema.parse(req.body)
     try {
 
-        const prismaUsersRepository = new PrismaUsersRepository()
-        const authenticateUserUseCase = new AuthenticateUserUseCase(prismaUsersRepository)
+        const authenticateUserUseCase = makeAuthenticateUserUseCase()
 
         await authenticateUserUseCase.execute({
             email,
