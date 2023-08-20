@@ -1,7 +1,5 @@
 import { AppError } from '@/errors/AppError'
 import { makeAuthenticateUserUseCase } from '@/factories/makeAuthenticateUserUseCase'
-import { PrismaUsersRepository } from '@/repositories/prisma-users-repository'
-import { AuthenticateUserUseCase } from '@/useCases/authenticateUser/authenticateUser'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z as zod } from 'zod'
 

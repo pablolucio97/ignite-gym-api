@@ -27,7 +27,7 @@ test('AuthenticateUserUseCase', () => {
             email: user.email,
             password: '123456'
         })
-        expect(name).toBe('john-wrong')
+        expect(name).toEqual('john-wrong')
     })
 
 
