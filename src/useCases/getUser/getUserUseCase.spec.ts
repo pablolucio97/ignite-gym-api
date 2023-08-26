@@ -1,10 +1,10 @@
-import { it, test, expect, beforeEach } from 'vitest'
+import { it, describe, expect, beforeEach } from 'vitest'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { GetUserUseCase } from './getUserUseCase'
 import { hash } from 'bcryptjs'
 import { AppError } from '@/errors/AppError'
 
-test('Get user use case', () => {
+describe('Get user use case', () => {
 
     let usersRepository: InMemoryUsersRepository
     let getUserUseCase: GetUserUseCase
@@ -25,8 +25,8 @@ test('Get user use case', () => {
     })
 
     it('Should not be able to get an user with wrong id', async () => {
-        expect(() => {
-            getUserUseCase.execute('any-non-existing-id')
+        expect(async () => {
+            await getUserUseCase.execute('any-non-existing-id')
         }).rejects.toBeInstanceOf(AppError)
     })
 })

@@ -1,10 +1,10 @@
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository';
 import { hash } from 'bcryptjs';
-import { beforeEach, expect, it, test } from 'vitest';
+import { beforeEach, expect, it, describe } from 'vitest';
 import { AuthenticateUserUseCase } from './authenticateUser';
 import { AppError } from '@/errors/AppError';
 
-test('AuthenticateUserUseCase', () => {
+describe('AuthenticateUserUseCase', () => {
 
     let inMemoryUsersRepository: InMemoryUsersRepository
     let authenticateUserUseCase: AuthenticateUserUseCase
@@ -27,7 +27,7 @@ test('AuthenticateUserUseCase', () => {
             email: user.email,
             password: '123456'
         })
-        expect(name).toEqual('john-wrong')
+        expect(name).toEqual('john')
     })
 
 
