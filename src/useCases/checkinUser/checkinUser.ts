@@ -1,8 +1,6 @@
 import { AppError } from '@/errors/AppError';
 import { CheckInsRepository } from '@/repositories/interfaces/prisma-checkins-repository';
-import { UsersRepository } from '@/repositories/interfaces/prisma-users-repository';
-import { Checkin, User } from '@prisma/client';
-import { compare } from 'bcryptjs';
+import { Checkin } from '@prisma/client';
 
 interface ICheckinUserRequest {
     userId: string;
@@ -19,6 +17,15 @@ export class CheckinUserUseCase {
     ) { }
 
     async execute({ userId, gymId }: ICheckinUserRequest): Promise<ICheckinResponse> {
+        const checkInOnSameDay = await this.checkInsRepository.findByUserIdOnDate(
+            userId,
+            new Date(),
+        )
+
+        if (checkInOnSameDay) {
+            throw new AppError('Você já realizou check in hoje.')
+        }
+
         const checkIn = await this.checkInsRepository.create({
             gym_id: gymId,
             user_id: userId
