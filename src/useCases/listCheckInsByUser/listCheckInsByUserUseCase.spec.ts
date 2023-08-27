@@ -6,8 +6,8 @@ import { ListCheckInsByUserUseCase } from './listCheckInsByUserUseCase'
 let checkInsRepository: InMemoryCheckInsRepository
 let listChecksByUserUseCase: ListCheckInsByUserUseCase
 
-describe('List check-ins by user use case', async () => {
-    beforeEach(async () => {
+describe('List check-ins by user use case', () => {
+    beforeEach(() => {
         checkInsRepository = new InMemoryCheckInsRepository()
         listChecksByUserUseCase = new ListCheckInsByUserUseCase(checkInsRepository)
     })
@@ -23,7 +23,7 @@ describe('List check-ins by user use case', async () => {
             user_id: 'user-01',
         })
 
-        const checkIns = await listChecksByUserUseCase.execute({
+        const { checkIns } = await listChecksByUserUseCase.execute({
             userId: 'user-01',
             page: 1
         })
@@ -32,7 +32,7 @@ describe('List check-ins by user use case', async () => {
         expect(checkIns).toEqual([
             expect.objectContaining({ gym_id: 'gym-01' }),
             expect.objectContaining({ gym_id: 'gym-02' }),
-          ])
+        ])
 
     })
 })
