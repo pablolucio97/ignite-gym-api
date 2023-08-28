@@ -4,4 +4,6 @@ export interface CheckInsRepository {
     findByUserIdOnDate(userId: string, date: Date): Promise<Checkin | null>
     listPaginatedCheckinsByUser(userId: string, page: number) : Promise<Checkin[]>
     countByUserId(userId: string): Promise<number>
+    findById(id: string): Promise<Checkin | null>
+    save(checkIn: Checkin): Promise<Checkin>
 }
