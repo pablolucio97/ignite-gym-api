@@ -14,6 +14,7 @@ export class PrismaGymsRepository implements GymsRepository {
     return gym
   }
 
+  //GET GYMS NEARBY UNTIL 10KM
   async findManyNearby({ latitude, longitude }: FindManyNearbyParams) {
     const gyms = await prisma.$queryRaw<Gym[]>`
       SELECT * from gyms
@@ -27,6 +28,7 @@ export class PrismaGymsRepository implements GymsRepository {
     const gyms = await prisma.gym.findMany({
       where: {
         title: {
+          //QUERY AND TITLE NOT NEED BE EXACTLY SAME STRING
           contains: query,
         },
       },
