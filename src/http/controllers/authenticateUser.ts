@@ -14,18 +14,26 @@ export async function authenticateUserController(req: FastifyRequest, rep: Fasti
 
         const authenticateUserUseCase = makeAuthenticateUserUseCase()
 
-        await authenticateUserUseCase.execute({
+        const user = await authenticateUserUseCase.execute({
             email,
             password
         })
 
+        //CREATING JWT TOKEN BASED ON user.id INFO
+        const token = await rep.jwtSign({}, {
+            sign: {
+                sub: user.id
+            }
+        })
+
+        return rep.status(200).send({ token })
+
     } catch (error) {
-        if(error instanceof AppError) {
+        if (error instanceof AppError) {
             return rep.status(403).send({
                 message: error.message
             })
         }
         throw error
     }
-    return rep.status(200).send()
 }
