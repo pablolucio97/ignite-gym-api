@@ -4,12 +4,15 @@ End to end tests are tests that tests a complete flow of your application. Gener
 tests routes and it business rules inside a flow context. In your application you need to 
 have a few end to end tests, few, but effectives. 
 
+En to end tests are genrally executed on CI envinronment like GitHub actions.
+
 To work with end to end tests you need to create a test environment containing it owns 
 database and need be isolated from another unit tests.
 
 Configuring the environment
 
-1) Run the command npx yarn add vitest@0.33.0  to install the vitest (need be this 0.33.0 v).
+1) Run the command npx yarn add vitest@0.33.0  to install the vitest (need be this 0.33.0 v) 
+and the command npx yarn add npm-run-all to allow your npm scripts run in all SO's.
 
 -----------
 
@@ -37,17 +40,46 @@ this file as the main project file. Ex:
 
 4) Configure your prisma-test-environment.ts file to execute tests on the isolated environment.
 
-import {Environment} from 'vitest'
+import 'dotenv/config'
+import { Environment } from 'vitest'
+import { randomUUID } from 'node:crypto'
+import { execSync } from 'node:child_process'
+import { PrismaClient } from '@prisma/client'
 
-export default <Environment>{
+const prisma = new PrismaClient()
+
+function generateDatabaseUrl(schema: string) {
+    if (!process.env.DATABASE_URL) {
+        throw new Error('Please provide a DATABASE_URL environment variable')
+    }
+    //READ THE process.env.DATABASE_URL
+    const url = new URL(process.env.DATABASE_URL)
+    //REPLACE THE SEARCH PARAMS FORM THE URL FOR THE NEW RAMDOMUUID (REPLACE "public"  TO THE RANDOM UUID)
+    url.searchParams.set('schema', schema)
+    return url.toString()
+}
+
+export default <Environment>(<unknown>{
     name: 'prisma',
     async setup() {
-        console.log('executed')
+        const schema = randomUUID()
+        const databaseUrl = generateDatabaseUrl(schema)
+        process.env.DATABASE_URL = databaseUrl
+        //EXECUTE LIKE ON TERMINAL, ALL PRISMA MIGRATIONS WITHOUT COMPARING WITH YOUR LOCAL MIGRATIONS
+        execSync('npx yarn prisma migrate deploy')
         return {
-            teardown() {},
+            async teardown() {
+                //DELETE THE SCHEMA AND DISCONNECT FROM DATABASE AFTER EXECUTING THE E2E TESTS
+                //THE SCHEMA WILL NOT BE VISIBLE ON BEEKEEPER
+                await prisma.$executeRawUnsafe(
+                    `DROP SCHEMA IF EXISTS "${schema}" CASCADE`
+                )
+                await prisma.$disconnect()
+            },
         }
     },
-}
+})
+
 
 -----------
 
@@ -86,4 +118,24 @@ test('ok', () => {})
 
 -----------
 
-9) Execute your tests running npm run test.
+9) In your package.json project file, configure the scripts to run each test isolatedly.
+To run e2e tests you need to run a script create the e2e environment, antoher to link the 
+vitest-environment-prisma and the run the e2e tests (You'll need 4 tests in total, whose
+are: "test:create-e2e-environment","test:install-e2e-environment", "pretest:e2e" and then
+  "test:e2e"). Example:
+
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "release": "node build/server.js",
+    "build": "tsup src --out-dir build",
+    "test:unit": "vitest run --dir src/useCases",
+    //HERE FIRST NEED TO CREATE THE E2E TEST ENVIRONMENT, THEN LINK IT, AND THE RUN TESTS.
+    "test:create-e2e-environment": "npm link ./prisma/vitest-environment-prisma", 
+    "test:install-e2e-environment": "npm link vitest-environment-prisma", 
+    "pretest:e2e": "run-s test:create-e2e-environment test:install-e2e-environment",
+    "test:e2e": "vitest run --dir src/http/controllers/tests",
+    "test:coverage": "vitest run --coverage"
+  },
+
+10) Execute your tests running npm run test:e2e to create the envinronment test, link it 
+and the run your tests.
