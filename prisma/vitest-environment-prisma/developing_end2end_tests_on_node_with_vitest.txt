@@ -1,0 +1,89 @@
+=======================DEVELOPING TESTS END2END ON NODE JS WITH VITEST===========================
+
+End to end tests are tests that tests a complete flow of your application. Generally it
+tests routes and it business rules inside a flow context. In your application you need to 
+have a few end to end tests, few, but effectives. 
+
+To work with end to end tests you need to create a test environment containing it owns 
+database and need be isolated from another unit tests.
+
+Configuring the environment
+
+1) Run the command npx yarn add vitest@0.33.0  to install the vitest (need be this 0.33.0 v).
+
+-----------
+
+2) Inside the prisma folder, create a folder with this exact name: vitest-environment-prisma.
+
+-----------
+
+3) Inside this folder, run npm init -y, create a file named prisma-test-environment.ts and set 
+this file as the main project file. Ex:
+
+{
+  "name": "vitest-environment-prisma",
+  "version": "1.0.0",
+  "description": "",
+  "main": "prisma-test-environment.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+
+-----------
+
+4) Configure your prisma-test-environment.ts file to execute tests on the isolated environment.
+
+import {Environment} from 'vitest'
+
+export default <Environment>{
+    name: 'prisma',
+    async setup() {
+        console.log('executed')
+        return {
+            teardown() {},
+        }
+    },
+}
+
+-----------
+
+5) In your vite.config.ts file, configure the environment for the end2end test. Example:
+
+import {defineConfig} from 'vitest/config'
+import tsconfigpaths from 'vite-tsconfig-paths'
+
+export default defineConfig({
+    plugins: [tsconfigpaths()],
+    test:{
+        //execute all tests that are inside controllers folder using the envinronment
+        //vitest-environment-prisma
+        environmentMatchGlobs: [['src/http/controllers/**', 'prisma']],
+        dir: 'src'
+    }
+})
+
+-----------
+
+6) On the vitest-environment-prisma directory, run npm link to npm link the vitest-
+environment-prisma as a local package.
+
+-----------
+
+7) On your project directory run  run npm link vitest-environment-prisma to install this 
+local package into your project.
+
+-----------
+
+8) Create your test inside the controllers folder. Ex (textSpanContainsPosition.spec.ts):
+
+import { test } from 'vitest'
+
+test('ok', () => {})
+
+-----------
+
+9) Execute your tests running npm run test.
