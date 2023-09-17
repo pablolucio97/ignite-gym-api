@@ -1,4 +1,4 @@
-=======================DEVELOPING TESTS END2END ON NODE JS WITH VITEST===========================
+================CONFIGURING E2E TESTS ON NODE JS WITH VITEST AND NPM RUN ALL=====================
 
 End to end tests are tests that tests a complete flow of your application. Generally it
 tests routes and it business rules inside a flow context. In your application you need to 
