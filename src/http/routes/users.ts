@@ -6,7 +6,7 @@ import { verifyJwt } from '../middlewares/verify-jwt'
 
 export async function usersRoutes(app: FastifyInstance) {
     app.post('/users', registerUserController)
-    //ADD THE verifyJwt MIDDLEWARE TO /sessions ROUTE
-    app.post('/sessions', {onRequest: [verifyJwt]}, authenticateUserController)
-    app.get('/profile', profile)
+    app.post('/sessions', authenticateUserController)
+    //ADD THE verifyJwt MIDDLEWARE TO /profile ROUTE
+    app.get('/profile',  {onRequest: [verifyJwt]}, profile)
 }

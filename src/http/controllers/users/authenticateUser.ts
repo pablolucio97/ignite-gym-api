@@ -20,10 +20,11 @@ export async function authenticateUserController(
             email,
             password,
         })
-
         //CREATING JWT TOKEN BASED ON user.id INFO
         const token = await rep.jwtSign(
-            {},
+            {
+                role: user.role
+            },
             {
                 sign: {
                     sub: user.id,
@@ -32,7 +33,9 @@ export async function authenticateUserController(
         )
 
         const refreshToken = await rep.jwtSign(
-            {},
+            {
+                role: user.role
+            },
             {
                 sign: {
                     sub: user.id,
@@ -46,7 +49,7 @@ export async function authenticateUserController(
                 path: '/', // ROUTES HAS ACCESS TO READ THE COOKIE
                 secure: true, // COOKIE IS ENCRYPTED BY HTTPS, FRONT-END CAN READ IT
                 sameSite: true, //AVAILABLE ONLY IN THE DOMAIN (LOCALHOST OR PRODURL)
-                httpOnly: true //AVAILABLE OLY IN THE REQUEST CONTEXT, NOT WILL BE STORED IN BROWSER
+                httpOnly: true, //AVAILABLE OLY IN THE REQUEST CONTEXT, NOT WILL BE STORED IN BROWSER
             })
             .status(200)
             .send({ token })

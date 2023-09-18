@@ -8,10 +8,12 @@ export async function RefrehsTokenController(
     //VALIDATE IF USER IS AUTHENTICATED SEARCHING FOR THE EXISTING COOKIE AND NOT BEARER TOKEN
     await req.jwtVerify({ onlyCookie: true })
     //IF THERE IS A VALID COOKIE, FOLLOWS THE NEXT CODE
+    const { role } = req.user
     try {
     //CREATING JWT TOKEN BASED ON req.user.sub INFO
+
         const token = await rep.jwtSign(
-            {},
+            { role },
             {
                 sign: {
                     sub: req.user.sub,
@@ -20,7 +22,7 @@ export async function RefrehsTokenController(
         )
 
         const refreshToken = await rep.jwtSign(
-            {},
+            { role },
             {
                 sign: {
                     sub: req.user.sub,
