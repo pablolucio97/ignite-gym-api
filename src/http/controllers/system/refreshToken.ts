@@ -1,32 +1,20 @@
 import { AppError } from '@/errors/AppError'
-import { makeAuthenticateUserUseCase } from '@/factories/makeAuthenticateUserUseCase'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { z as zod } from 'zod'
 
-const userRegistrationSchema = zod.object({
-    email: zod.string().email(),
-    password: zod.string().min(6),
-})
-
-export async function authenticateUserController(
+export async function RefrehsTokenController(
     req: FastifyRequest,
     rep: FastifyReply
 ) {
-    const { email, password } = userRegistrationSchema.parse(req.body)
+    //VALIDATE IF USER IS AUTHENTICATED SEARCHING FOR THE EXISTING COOKIE AND NOT BEARER TOKEN
+    await req.jwtVerify({ onlyCookie: true })
+    //IF THERE IS A VALID COOKIE, FOLLOWS THE NEXT CODE
     try {
-        const authenticateUserUseCase = makeAuthenticateUserUseCase()
-
-        const user = await authenticateUserUseCase.execute({
-            email,
-            password,
-        })
-
-        //CREATING JWT TOKEN BASED ON user.id INFO
+    //CREATING JWT TOKEN BASED ON req.user.sub INFO
         const token = await rep.jwtSign(
             {},
             {
                 sign: {
-                    sub: user.id,
+                    sub: req.user.sub,
                 },
             }
         )
@@ -35,7 +23,7 @@ export async function authenticateUserController(
             {},
             {
                 sign: {
-                    sub: user.id,
+                    sub: req.user.sub,
                     expiresIn: '7d',
                 },
             }
@@ -46,7 +34,7 @@ export async function authenticateUserController(
                 path: '/', // ROUTES HAS ACCESS TO READ THE COOKIE
                 secure: true, // COOKIE IS ENCRYPTED BY HTTPS, FRONT-END CAN READ IT
                 sameSite: true, //AVAILABLE ONLY IN THE DOMAIN (LOCALHOST OR PRODURL)
-                httpOnly: true //AVAILABLE OLY IN THE REQUEST CONTEXT, NOT WILL BE STORED IN BROWSER
+                httpOnly: true, //AVAILABLE OLY IN THE REQUEST CONTEXT, NOT WILL BE STORED IN BROWSER
             })
             .status(200)
             .send({ token })
